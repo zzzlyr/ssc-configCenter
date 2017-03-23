@@ -1,0 +1,19 @@
+server:
+  port: 8022
+spring:
+  application:
+    name: microservice-consumer-movie-feign-with-hystrix-stream
+eureka:
+  client:
+    registry-fetch-interval-seconds: 10 #表示eureka client间隔多久去拉取服务注册信息，默认为30秒，对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒
+    serviceUrl:
+      defaultZone: http://admin:admin@discovery:8761/eureka/
+  instance:
+    lease-expiration-duration-in-seconds: 10 #leaseExpirationDurationInSeconds，表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+    lease-renewal-interval-in-seconds: 5 #leaseRenewalIntervalInSeconds，表示eureka client发送心跳给server端的频率。如果在leaseExpirationDurationInSeconds后，server端没有收到client的心跳，则将摘除该
+    hostname: feign # 此处，preferIpAddress不设置或者设为false，不能设为true，否则影响turbine的测试。turbine存在的问题：eureka.instance.hostname一致时只能检测到一个节点，会造成turbine数据不完整
+ribbon:
+  eureka:
+    enabled: true # 默认为true。如果设置为false，Ribbon将不会从Eureka中获得服务列表，而是使用静态配置的服务列表。静态服务列表可使用：<client>.ribbon.listOfServers来指定。参考：http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon-without-eureka
+    
+### 参考：https://spring.io/guides/gs/client-side-load-balancing/

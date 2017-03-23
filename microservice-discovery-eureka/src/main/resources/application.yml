@@ -1,0 +1,32 @@
+server:
+  port: 8761 # 指定该Eureka实例的端口
+
+# 安全认证的配置
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: admin
+
+eureka:
+  instance:
+    hostname: discovery  # 指定该Eureka实例的主机名
+  server:
+    eviction-interval-timer-in-ms: 10000 # eureka server清理无效节点的时间间隔，默认60000毫秒，即60秒
+  client:
+    registerWithEureka: false #表示是否将自己注册到Eureka Server，默认为true。由于当前这个应用就是Eureka Server，故而设为false
+    fetchRegistry: false # 表示是否从Eureka Server获取注册信息，默认为true。因为这是一个单点的Eureka Server，不需要同步其他的Eureka Server节点的数据，故而设为false
+    serviceUrl:
+      defaultZone: http://admin:admin@${eureka.instance.hostname}:${server.port}/eureka/
+      # 设置与Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。默认是http://localhost:8761/eureka ；多个地址可使用 , 分隔
+
+
+
+# 参考文档：http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#_standalone_mode
+# 参考文档：http://my.oschina.net/buwei/blog/618756
+#这个配置文件指eureka 是单点，如果运行把 application-ha.yml注释掉
+#application-ha.yml 是eureka 高可心用配置形式
+# spring-boot-starter-parent 选择1.4.4 使用1.5.1启动不起来？
+# http://localhost:8761/eureka/apps 可以查看xml形式的信息
+# http://localhost:8761/eureka/apps/{serviceId} 例：http://localhost:8761/eureka/apps/MICROSERVICE-CONSUMER-MOVIE-RIBBON-WITH-HYSTRIX 可以查看单个的

@@ -11,6 +11,6 @@ spring:
           # 配置git仓库的地址
           search-paths: config-repo
           #git仓库地址下的相对地址，可以配置多个，用,分割。
-          username: zzzlyr
+          username: asdfsdf
           #git仓库的账号
-          password: zzz11jwj # git仓库的密码
+          password:dfasdfasdf # git仓库的密码

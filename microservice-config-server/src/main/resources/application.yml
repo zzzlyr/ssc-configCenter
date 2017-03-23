@@ -13,4 +13,4 @@ spring:
           #git仓库地址下的相对地址，可以配置多个，用,分割。
           username: asdfsdf
           #git仓库的账号
-          password:dfasdfasdf # git仓库的密码
+          password: dfasdfasdf # git仓库的密码

@@ -2,6 +2,8 @@ package com.itmuch.cloud.study.user.feign;
 
 import com.itmuch.cloud.study.user.entity.User;
 import com.itmuch.cloud.study.user.feign.UserFeignHystrixClient.HystrixClientFallback;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -19,6 +21,17 @@ public interface UserFeignHystrixClient {
   public User findByIdFeign(@RequestParam("id") Long id);
 
   @RequestMapping("/user/{id}")
+  //hystrix 进行每一个服务进行线程隔离限流配置
+  @HystrixCommand(commandProperties = {
+          @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500")},
+          threadPoolProperties = {
+                  @HystrixProperty(name = "coreSize", value = "30"),
+                  @HystrixProperty(name = "maxQueueSize", value = "101"),
+                  @HystrixProperty(name = "keepAliveTimeMinutes", value = "2"),
+                  @HystrixProperty(name = "queueSizeRejectionThreshold", value = "15"),
+                  @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
+                  @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1440")
+          })
   public String userById(@RequestParam("id") Long id);
 
   /**

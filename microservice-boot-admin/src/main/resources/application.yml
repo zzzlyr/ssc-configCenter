@@ -1,0 +1,24 @@
+server:
+  port: 8078
+spring:
+  application:
+    name: microservice-boot-admin
+  boot:
+    admin:
+      routes:
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream # tag::configuration-ui-hystrix[]
+eureka:
+  client:
+    registry-fetch-interval-seconds: 10 #表示eureka client间隔多久去拉取服务注册信息，默认为30秒，对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒
+    serviceUrl:
+      defaultZone: http://admin:admin@discovery:8761/eureka/
+  instance:
+    lease-expiration-duration-in-seconds: 10 #leaseExpirationDurationInSeconds，表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+    lease-renewal-interval-in-seconds: 5 #leaseRenewalIntervalInSeconds，表示eureka client发送心跳给server端的频率。如果在leaseExpirationDurationInSeconds后，server端没有收到client的心跳，则将摘除该
+    hostname: localhost  #要设置hostname 配置
+
+management:
+  security:
+    enabled: false
+
+
